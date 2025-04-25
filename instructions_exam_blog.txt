@@ -1,0 +1,99 @@
+Instrucciones
+
+1. Configuración del Proyecto
+- Abre el proyecto proporcionado en tu IDE favorito (IntelliJ IDEA, Eclipse, VS Code, etc.).
+- Asegúrate de que el proyecto funcione correctamente.
+
+2. Implementación de las Entidades (Entities)
+Completa las siguientes clases JPA en el proyecto:
+
+Author
+- id
+- name
+- email
+
+Post
+- id
+- title
+- content
+- publicationDate (Date)
+- author_id (FK → Author)
+
+Tag
+- id
+- name
+
+PostTag (tabla intermedia M–N)
+- id
+- post_id  (FK → Post)
+- tag_id   (FK → Tag)
+
+Relaciones:
+- Un Author puede escribir muchos Post.
+- Un Post pertenece a un Author.
+- Un Post puede tener muchos Tag.
+- Un Tag puede aplicarse a muchos Post.
+- Relación M–N entre Post y Tag a través de PostTag.
+
+3. Implementación de los Repositories
+Crea interfaces que extiendan JpaRepository para:
+- AuthorRepository
+- PostRepository
+- TagRepository
+- PostTagRepository
+
+
+
+4. Implementación de los Servicios (Services)
+Desarrolla la capa de servicios, un @Service por entidad:
+- AuthorService
+- PostService
+- TagService
+- PostTagService
+
+Validaciones sugeridas:
+- Al crear un Post, confirmar que el author_id existe.
+- Al crear un PostTag, verificar que no exista ya esa asociación.
+
+5. Implementación de los Endpoints
+
+AuthorController (/api/author)
+- GET  /getAll             → Obtener todos los autores.
+- POST /save               → Crear un nuevo autor.
+
+PostController (/api/post)
+- GET  /getAll             → Obtener todos los posts.
+- GET  /getById/{id}       → Obtener un post por ID.
+//- GET  /getByAuthor/{id}   → Obtener posts de un autor.
+- POST /save               → Crear un nuevo post.
+- PUT  /update/{id}        → Actualizar un post existente.
+
+TagController (/api/tag)
+- GET  /getAll             → Obtener todos los tags.
+- GET  /getByName/{name}   → Buscar tags por nombre.
+- POST /save               → Crear un nuevo tag.
+
+PostTagController (/api/posttag)
+- POST /save               → Asociar un tag a un post.
+- GET  /getByPost/{postId} → Obtener tags de un post.
+- GET  /getByTag/{tagId}   → Obtener posts de un tag.
+
+6. Implementación de Seguridad con JWT
+- Protege todos los endpoints (/api/author/**, /api/post/**, /api/tag/**, /api/posttag/**) con autenticación JWT.
+- Usa este hash para el usuario administrador al generar el token:
+  $2a$12$Ffw6TDbg/GBU9VwmXnU8Ceazfl9526Ip4TWvF6Zajmvk.0J4UPmvq -> admin
+
+
+7. Evaluación (10 pts)
+1. JWT protege GET /api/post/getAll                          — 1 pt
+2. GET /api/post/getAll → Obtener todos los posts            — 1 pt
+3. GET /api/post/getById/{id} → Obtener post por ID          — 1 pt
+4. GET /api/post/getByAuthor/{id} → Obtener posts de autor   — 1 pt
+5. POST /api/post/save → Crear un nuevo post                 — 1 pt
+6. GET /api/tag/getAll → Obtener todos los tags              — 1 pt
+7. GET /api/tag/getByName/{name} → Buscar tags por nombre    — 2 pt
+8. POST /api/tag/save → Crear un nuevo tag                   — 1 pt
+9. POST /api/posttag/save → Asociar tag a post               — 1 pt
+
+
+Nota: Todos los endpoints deben funcionar correctamente para que el examen sea válido.

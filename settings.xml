@@ -1,0 +1,11 @@
+<settings>
+  <localRepository>${project.basedir}/repo-local</localRepository>
+  <mirrors>
+    <mirror>
+      <id>local-mirror</id>
+      <name>Repo local embebido</name>
+      <url>file://${project.basedir}/repo-local</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
+</settings>
